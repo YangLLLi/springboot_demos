@@ -9,4 +9,8 @@ public class AopDemo {
     public void m1() {
         log.info("m1");
     }
+
+    public void m2(int i) {
+        log.info(String.valueOf(i));
+    }
 }

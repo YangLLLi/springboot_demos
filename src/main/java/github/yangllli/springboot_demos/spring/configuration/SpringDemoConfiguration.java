@@ -1,5 +1,6 @@
 package github.yangllli.springboot_demos.spring.configuration;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,21 +13,18 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SpringDemoConfiguration {
-    @Bean
-    public Category getCategory() {
-        return new Category();
+    @Bean("CDao")
+    public CategoryDao getCategoryDao() {
+        return new CategoryDao();
     }
 
-    @Bean
-    public Product getProduct(Category category) {
-        return new Product(category);
+    @Bean("CController")
+    public CategoryController categoryController(CategoryDao categoryDao) {
+        return new CategoryController(categoryDao);
     }
 
-    @Bean
-    public SpringDemo getSpringDemo(Category category,Product product) {
-        SpringDemo springDemo = new SpringDemo();
-        springDemo.setCategory(category);
-        springDemo.setProduct(product);
-        return springDemo;
+    @Bean("SDemo")
+    public SpringDemo getSpringDemo(CategoryController categoryController) {
+        return new SpringDemo(categoryController);
     }
 }

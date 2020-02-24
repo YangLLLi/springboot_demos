@@ -20,26 +20,13 @@ import org.springframework.stereotype.Component;
  * AOP实现面向切片编程， @aspect @pointCut @before
  * */
 @Component
+@Getter
 public class SpringDemo {
-    private Category category;
-    private Product product;
-
-    public Product getProduct() {
-        return product;
-    }
+    private CategoryController categoryController;
 
     @Autowired
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    @Autowired
-    public void setCategory(Category category) {
-        this.category = category;
+    public SpringDemo(CategoryController categoryController) {
+        this.categoryController = categoryController;
     }
 }
 

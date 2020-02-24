@@ -4,13 +4,13 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
 @Getter
-public class SpringDemo {
-    private CategoryController categoryController;
+public class CategoryController {
 
-    public SpringDemo(CategoryController categoryController) {
-        this.categoryController = categoryController;
+    private CategoryDao categoryDao;
+
+    public CategoryController(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
     }
-}
 
+}
