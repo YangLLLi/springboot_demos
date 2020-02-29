@@ -36,13 +36,12 @@ public class AspectDemo {
     }
 //   增加方法
 //    value内必须为完整包名
-    @DeclareParents(value = "github.yangllli.springboot_demos.spring.aop.AopDemo+",defaultImpl = ConsumerImp.class)
+    @DeclareParents(value = "github.yangllli.springboot_demos.spring.aop.AopDemo",defaultImpl = ConsumerImp.class)
     public Consumer<Integer> consumer;
 
 }
 
 @Slf4j
-@Component
 class ConsumerImp implements Consumer<Integer> {
 
     @Override

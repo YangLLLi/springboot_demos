@@ -1,0 +1,15 @@
+/**
+ * SpringMVC工作流程
+ * 一个request的旅游（web.xml开始，路由到 DispatchServlet）
+ *
+ * DispatchServlet分发请求到handler mapping，返回controller路径
+ * DispatchServlet分发请求到对应controller，返回model和视图名
+ *
+ * DispatchServlet分发视图名到view resolver，返回视图路径
+ * DispatchServlet分发请求和model到view，返回给用户
+ *
+ * 而restful中，后台不存在view resolver和view,替代的是message Converter和数据
+ *
+ * 一般配置文件中会显式或隐式指名handler mapper和view resolver
+ * 故程序编写中只需要关注 controller和model,view和model（restful中只关注数据）
+ */

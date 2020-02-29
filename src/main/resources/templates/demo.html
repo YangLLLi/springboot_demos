@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>demo</title>
+</head>
+<body>
+<h1 th:text="${msg}">haha</h1>
+<form action="/demo/body" method="post" enctype="text/plain">
+    <input type="text" name="test"/>
+    <br>
+    <button type="submit" >提交</button>
+    <br>
+</form>
+<form action="http://localhost:8080/demo/part" method="post" enctype="multipart/form-data">
+    <input type="file" name="file"  />
+    <input type="submit" value="上传" />
+</form>
+</body>
+</html>
