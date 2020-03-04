@@ -2,6 +2,7 @@ package github.yangllli.springboot_demos.springSecurity;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HomeController {
@@ -14,4 +15,11 @@ public class HomeController {
     public String hello() {
         return "hello";
     }
+
+    @RequestMapping("/failure")
+    @ResponseBody
+    public String failure() {
+        return "failure";
+    }
+
 }

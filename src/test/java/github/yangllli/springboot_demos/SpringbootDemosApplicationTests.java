@@ -4,6 +4,8 @@ import github.yangllli.springboot_demos.spring.aop.AopDemo;
 import github.yangllli.springboot_demos.spring.configuration.Category;
 import github.yangllli.springboot_demos.spring.configuration.CategoryDao;
 import github.yangllli.springboot_demos.spring.configuration.SpringDemo;
+import github.yangllli.springboot_demos.springSecurity.service.User;
+import github.yangllli.springboot_demos.springSecurity.service.UserDao;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.*;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.sql.DataSource;
 import java.util.function.Consumer;
 
 @RunWith(SpringRunner.class)
@@ -34,6 +37,8 @@ class SpringbootDemosApplicationTests {
 	private AopDemo demo;
 	@Autowired
 	private MockMvc mockMvc;
+	@Autowired
+	private UserDao userDao;
 
 
 	@Test
@@ -57,6 +62,20 @@ class SpringbootDemosApplicationTests {
 	void ControllerDemoTest() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/demo/1"))
 				.andExpect(MockMvcResultMatchers.view().name("demo"));
+	}
+
+	@Test
+	void UserDaoTest() {
+		User user1 = userDao.findByName("user1");
+		log.info(user1.toString());
+	}
+
+	@Autowired
+	DataSource dataSource;
+	@Test
+	void dataSourceTest() {
+		log.info(dataSource.toString());
+
 	}
 	@Test
 	void contextLoads() {
