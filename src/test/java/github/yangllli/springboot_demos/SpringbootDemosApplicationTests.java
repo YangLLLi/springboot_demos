@@ -1,13 +1,15 @@
 package github.yangllli.springboot_demos;
 
 import github.yangllli.springboot_demos.spring.aop.AopDemo;
-import github.yangllli.springboot_demos.spring.configuration.Category;
-import github.yangllli.springboot_demos.spring.configuration.CategoryDao;
 import github.yangllli.springboot_demos.spring.configuration.SpringDemo;
+import github.yangllli.springboot_demos.springDataJpa.dao.CategoryRep;
+import github.yangllli.springboot_demos.springDataJpa.dao.ProductRep;
+import github.yangllli.springboot_demos.springDataJpa.pojo.Category;
+import github.yangllli.springboot_demos.springDataJpa.pojo.Product;
+import github.yangllli.springboot_demos.springDataJpa.service.ProductService;
 import github.yangllli.springboot_demos.springSecurity.service.User;
 import github.yangllli.springboot_demos.springSecurity.service.UserDao;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +17,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.*;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.function.Consumer;
 
 @RunWith(SpringRunner.class)
@@ -41,13 +40,13 @@ class SpringbootDemosApplicationTests {
 	private UserDao userDao;
 
 
-	@Test
-	void springDemoTest() {
-		CategoryDao categoryDao = springDemo.getCategoryController().getCategoryDao();
-		Category c1 = categoryDao.getCategory(1, "c1");
-		log.info(c1.toString());
-
-	}
+//	@Test
+//	void springDemoTest() {
+//		CategoryDao categoryDao = springDemo.getCategoryController().getCategoryDao();
+//		Category c1 = categoryDao.getCategory(1, "c1");
+//		log.info(c1.toString());
+//
+//	}
 
 	@Test
 	void springDemoAopTest() {
@@ -75,8 +74,29 @@ class SpringbootDemosApplicationTests {
 	@Test
 	void dataSourceTest() {
 		log.info(dataSource.toString());
-
 	}
+
+	@Autowired
+	ProductService productService;
+	@Autowired
+	CategoryRep categoryRep;
+	@Test
+	void productDaoTest() {
+		Category c1 = categoryRep.getOne(1);
+		List<Product> list = productService.list(c1, 1, 5);
+		log.info(list.toString());
+		List<Product> search = productService.search("2");
+		log.info(search.toString());
+	}
+
+	@Test
+	void categoryDaoTest() {
+		Category category = new Category();
+		category.setName("c2");
+		category.setCreateDate(LocalDate.now());
+		categoryRep.save(category);
+	}
+
 	@Test
 	void contextLoads() {
 	}

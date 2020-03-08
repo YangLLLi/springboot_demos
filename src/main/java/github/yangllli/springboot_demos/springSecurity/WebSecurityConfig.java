@@ -42,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.userDetailsService(userDetailsService)
 //                .passwordEncoder(NoOpPasswordEncoder.getInstance());
 
-        auth.jdbcAuthentication().dataSource(dataSource)
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
                 .usersByUsernameQuery("select name,password,true from user where name=?")
 //                数据库中的role.name必须为ROLE_xxx
                 .authoritiesByUsernameQuery("select user.name, role.name from user join role on user.rid=role.id where user.name=?")
