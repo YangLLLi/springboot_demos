@@ -1,5 +1,11 @@
 package github.yangllli.springboot_demos;
 
+import github.yangllli.springboot_demos.mybatis.xmlMapper.CityMapper;
+import github.yangllli.springboot_demos.mybatis.xmlMapper.ProvinceMapper;
+import github.yangllli.springboot_demos.mybatis.xmlPojo.City;
+import github.yangllli.springboot_demos.mybatis.xmlPojo.CityExample;
+import github.yangllli.springboot_demos.mybatis.xmlPojo.Province;
+import github.yangllli.springboot_demos.mybatis.xmlPojo.ProvinceExample;
 import github.yangllli.springboot_demos.spring.aop.AopDemo;
 import github.yangllli.springboot_demos.spring.configuration.SpringDemo;
 import github.yangllli.springboot_demos.springDataJpa.dao.CategoryRep;
@@ -95,6 +101,36 @@ class SpringbootDemosApplicationTests {
 		category.setName("c2");
 		category.setCreateDate(LocalDate.now());
 		categoryRep.save(category);
+	}
+
+	@Autowired
+	ProvinceMapper provinceMapper;
+
+	@Test
+	void provinceMapperTest() {
+		Province province = new Province();
+		province.setName("sichuan");
+		provinceMapper.insert(province);
+		log.info(province.toString());
+		ProvinceExample provinceExample = new ProvinceExample();
+		List<Province> list = provinceMapper.selectByExample(provinceExample);
+		log.info(list.toString());
+	}
+
+	@Autowired
+	CityMapper cityMapper;
+	@Test
+	void cityMapperTest() {
+		Province province = provinceMapper.selectByPrimaryKey(1);
+		City city = new City();
+		city.setName("nanchong");
+		cityMapper.insert(city);
+
+		Integer pid = province.getId();
+		CityExample cityExample = new CityExample();
+		cityExample.createCriteria().andPidEqualTo(pid);
+		List<City> cities = cityMapper.selectByExample(cityExample);
+		log.info(cities.toString());
 	}
 
 	@Test
