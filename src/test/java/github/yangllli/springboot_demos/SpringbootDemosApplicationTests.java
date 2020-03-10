@@ -1,5 +1,7 @@
 package github.yangllli.springboot_demos;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import github.yangllli.springboot_demos.mybatis.xmlMapper.CityMapper;
 import github.yangllli.springboot_demos.mybatis.xmlMapper.ProvinceMapper;
 import github.yangllli.springboot_demos.mybatis.xmlPojo.City;
@@ -129,8 +131,12 @@ class SpringbootDemosApplicationTests {
 		Integer pid = province.getId();
 		CityExample cityExample = new CityExample();
 		cityExample.createCriteria().andPidEqualTo(pid);
+//		必须在mapper操作前
+		Page page =PageHelper.startPage(1,2);
 		List<City> cities = cityMapper.selectByExample(cityExample);
-		log.info(cities.toString());
+//		必须在mapper操作后
+		log.info(String.valueOf(page.getTotal()));
+		log.info(page.getResult().toString());
 	}
 
 	@Test
