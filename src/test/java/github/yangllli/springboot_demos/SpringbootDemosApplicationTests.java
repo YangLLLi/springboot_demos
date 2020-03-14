@@ -10,6 +10,8 @@ import github.yangllli.springboot_demos.mybatis.xmlPojo.Province;
 import github.yangllli.springboot_demos.mybatis.xmlPojo.ProvinceExample;
 import github.yangllli.springboot_demos.spring.aop.AopDemo;
 import github.yangllli.springboot_demos.spring.configuration.SpringDemo;
+import github.yangllli.springboot_demos.springDataCache.CacheDemo;
+import github.yangllli.springboot_demos.springDataCache.Person;
 import github.yangllli.springboot_demos.springDataJpa.dao.CategoryRep;
 import github.yangllli.springboot_demos.springDataJpa.dao.ProductRep;
 import github.yangllli.springboot_demos.springDataJpa.pojo.Category;
@@ -137,6 +139,17 @@ class SpringbootDemosApplicationTests {
 //		必须在mapper操作后
 		log.info(String.valueOf(page.getTotal()));
 		log.info(page.getResult().toString());
+	}
+	@Autowired
+	CacheDemo cacheDemo;
+
+	@Test
+	void cacheDemoTest() {
+		Person person=new Person();
+		person.setName("Yang");
+		person.setAge(1);
+		person.setHiding("hide");
+		cacheDemo.addPerson(person);
 	}
 
 	@Test

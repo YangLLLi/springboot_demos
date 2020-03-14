@@ -30,6 +30,6 @@ public class Category {
     private int id;
 //    @Column
     private String name;
-
+// 数据库中名字为create_date
     private LocalDate createDate;
 }
