@@ -1,19 +1,10 @@
 package github.yangllli.springboot_demos;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import github.yangllli.springboot_demos.mybatis.xmlMapper.CityMapper;
-import github.yangllli.springboot_demos.mybatis.xmlMapper.ProvinceMapper;
-import github.yangllli.springboot_demos.mybatis.xmlPojo.City;
-import github.yangllli.springboot_demos.mybatis.xmlPojo.CityExample;
-import github.yangllli.springboot_demos.mybatis.xmlPojo.Province;
-import github.yangllli.springboot_demos.mybatis.xmlPojo.ProvinceExample;
 import github.yangllli.springboot_demos.spring.aop.AopDemo;
 import github.yangllli.springboot_demos.spring.configuration.SpringDemo;
 import github.yangllli.springboot_demos.springDataCache.CacheDemo;
 import github.yangllli.springboot_demos.springDataCache.Person;
 import github.yangllli.springboot_demos.springDataJpa.dao.CategoryRep;
-import github.yangllli.springboot_demos.springDataJpa.dao.ProductRep;
 import github.yangllli.springboot_demos.springDataJpa.pojo.Category;
 import github.yangllli.springboot_demos.springDataJpa.pojo.Product;
 import github.yangllli.springboot_demos.springDataJpa.service.ProductService;
@@ -40,14 +31,14 @@ import java.util.function.Consumer;
 @Slf4j
 @AutoConfigureMockMvc
 class SpringbootDemosApplicationTests {
-	@Autowired
-	private SpringDemo springDemo;
-	@Autowired
-	private AopDemo demo;
-	@Autowired
-	private MockMvc mockMvc;
-	@Autowired
-	private UserDao userDao;
+    @Autowired
+    private SpringDemo springDemo;
+    @Autowired
+    private AopDemo demo;
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private UserDao userDao;
 
 
 //	@Test
@@ -58,102 +49,71 @@ class SpringbootDemosApplicationTests {
 //
 //	}
 
-	@Test
-	void springDemoAopTest() {
-		demo.m1();
-		demo.m2(4);
-		Consumer<Integer> consumer = (Consumer<Integer>) demo;
-		consumer.accept(5);
+    @Test
+    void springDemoAopTest() {
+        demo.m1();
+        demo.m2(4);
+        Consumer<Integer> consumer = (Consumer<Integer>) demo;
+        consumer.accept(5);
 
-	}
+    }
 
-	@Test
-	void ControllerDemoTest() throws Exception {
-		mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/demo/1"))
-				.andExpect(MockMvcResultMatchers.view().name("demo"));
-	}
+    @Test
+    void ControllerDemoTest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/demo/1"))
+                .andExpect(MockMvcResultMatchers.view().name("demo"));
+    }
 
-	@Test
-	void UserDaoTest() {
-		User user1 = userDao.findByName("user1");
-		log.info(user1.toString());
-	}
+    @Test
+    void UserDaoTest() {
+        User user1 = userDao.findByName("user1");
+        log.info(user1.toString());
+    }
 
-	@Autowired
-	DataSource dataSource;
-	@Test
-	void dataSourceTest() {
-		log.info(dataSource.toString());
-	}
+    @Autowired
+    DataSource dataSource;
 
-	@Autowired
-	ProductService productService;
-	@Autowired
-	CategoryRep categoryRep;
-	@Test
-	void productDaoTest() {
-		Category c1 = categoryRep.getOne(1);
-		List<Product> list = productService.list(c1, 1, 5);
-		log.info(list.toString());
-		List<Product> search = productService.search("2");
-		log.info(search.toString());
-	}
+    @Test
+    void dataSourceTest() {
+        log.info(dataSource.toString());
+    }
 
-	@Test
-	void categoryDaoTest() {
-		Category category = new Category();
-		category.setName("c2");
-		category.setCreateDate(LocalDate.now());
-		categoryRep.save(category);
-	}
+    @Autowired
+    ProductService productService;
+    @Autowired
+    CategoryRep categoryRep;
 
-	@Autowired
-	ProvinceMapper provinceMapper;
+    @Test
+    void productDaoTest() {
+        Category c1 = categoryRep.getOne(1);
+        List<Product> list = productService.list(c1, 1, 5);
+        log.info(list.toString());
+        List<Product> search = productService.search("2");
+        log.info(search.toString());
+    }
 
-	@Test
-	void provinceMapperTest() {
-		Province province = new Province();
-		province.setName("sichuan");
-		provinceMapper.insert(province);
-		log.info(province.toString());
-		ProvinceExample provinceExample = new ProvinceExample();
-		List<Province> list = provinceMapper.selectByExample(provinceExample);
-		log.info(list.toString());
-	}
+    @Test
+    void categoryDaoTest() {
+        Category category = new Category();
+        category.setName("c2");
+        category.setCreateDate(LocalDate.now());
+        categoryRep.save(category);
+    }
 
-	@Autowired
-	CityMapper cityMapper;
-	@Test
-	void cityMapperTest() {
-		Province province = provinceMapper.selectByPrimaryKey(1);
-		City city = new City();
-		city.setName("nanchong");
-		cityMapper.insert(city);
+    @Autowired
+    CacheDemo cacheDemo;
 
-		Integer pid = province.getId();
-		CityExample cityExample = new CityExample();
-		cityExample.createCriteria().andPidEqualTo(pid);
-//		必须在mapper操作前
-		Page page =PageHelper.startPage(1,2);
-		List<City> cities = cityMapper.selectByExample(cityExample);
-//		必须在mapper操作后
-		log.info(String.valueOf(page.getTotal()));
-		log.info(page.getResult().toString());
-	}
-	@Autowired
-	CacheDemo cacheDemo;
+    @Test
+    void cacheDemoTest() {
+        Person person = new Person();
+        person.setName("Yang");
+        person.setAge(1);
+        person.setHiding("hide");
+        cacheDemo.addPerson(person);
+    }
 
-	@Test
-	void cacheDemoTest() {
-		Person person=new Person();
-		person.setName("Yang");
-		person.setAge(1);
-		person.setHiding("hide");
-		cacheDemo.addPerson(person);
-	}
-
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
